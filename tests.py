@@ -1,8 +1,9 @@
 import datetime
 import sys
+import time
 import unittest
 
-from pylicious import HttpAuthDeliciousClient
+from pylicious import HttpAuthDeliciousClient, DeliciousPost, DeliciousDate
 
 
 class HttpAuthDeliciousClientTestCaseConfigException(Exception):
@@ -38,6 +39,23 @@ class HttpAuthDeliciousClientTestCase(unittest.TestCase):
         self.client.delete(self.url)
 
     def test_get_call(self):
-        self.client.get(tags=['google'], urls=[self.url])
-        self.client.get(tags=['google', 'google'], dt=datetime.datetime.now(),
-            urls=[self.url, self.url], meta=False)
+        posts = self.client.get()
+        self.assertTrue(isinstance(posts[0], DeliciousPost))
+
+    def test_recent_call(self):
+        posts = self.client.recent()
+        self.assertTrue(isinstance(posts[0], DeliciousPost))
+
+    def test_dates_call(self):
+        dates = self.client.dates()
+        self.assertTrue(isinstance(dates[0], DeliciousDate))
+
+    def test_all_call(self):
+        pass
+        #posts = self.client.all()
+        #self.assertTrue(isinstance(posts[0], DeliciousPost))
+
+    def test_hashes_call(self):
+        pass
+        #posts = self.client.hashes()
+        #self.assertTrue(isinstance(posts[0], DeliciousPost))
